@@ -1,3 +1,8 @@
+Unreleased
+- Repo cleanup: moved ~2.5MB of unused files/folders (dead affiliate assets, superseded flashing-tool v1, old splash/logo art, a leftover legacy Grbl firmware binary, stray dev scripts) into File13/ for review rather than deleting outright — see File13/README.md for the full inventory and reasoning
+- Removed dead "carveco"/"fabber" affiliate socket handlers from index.js (no UI entry point called them)
+- Removed a stale commented-out <script> tag in app/index.html left over from the old flashing tool
+- Added todo.md at repo root to track recommended follow-up work
 v1.0.390
 - Removed mailling list signup form to allow access to CONTROL
 - Lowered update check frequency

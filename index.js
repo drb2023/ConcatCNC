@@ -67,7 +67,6 @@ var app = express();
 var http = require("http").Server(app);
 var https = require('https');
 
-//var ioServer = require('socket.io');
 const {
   Server: ioServer
 } = require('socket.io');
@@ -84,9 +83,7 @@ const {
 
 //const drivelist = require('drivelist'); // removed in 1.0.350 due to Drivelist stability issues
 
-// FluidNC test
-var fluidncConfig = "";
-// FluidNC end test
+var fluidncConfig = ""; // buffers the FluidNC config file as it streams in over serial
 
 app.use(express.static(path.join(__dirname, "app")));
 //app.use(express.limit('200M'));
@@ -748,20 +745,6 @@ io.on("connection", function(socket) {
       shell
     } = require('electron')
     shell.openExternal('https://www.openbuildspartstore.com')
-  });
-
-  socket.on("carveco", function(data) {
-    const {
-      shell
-    } = require('electron')
-    shell.openExternal('https://carveco.com/carveco-software-range/?ref=openbuilds')
-  });
-
-  socket.on("fabber", function(data) {
-    const {
-      shell
-    } = require('electron')
-    shell.openExternal('https://www.getfabber.com/openbuilds?ref=OpenBuilds')
   });
 
   socket.on("lightburn", function(data) {

@@ -1,4 +1,7 @@
 Unreleased
+- Rebrand: replaced the OpenBuilds splash/titlebar logo and app/taskbar/tray/favicon/PWA icon set with new ConcatCNC branding, generated from master art in branding/ (see branding/README.md); old OpenBuilds logo files archived to File13/ rather than deleted
+- Repurposed the ribbon button that used to link to openbuilds.com (now defunct) to link to concatcnc.com instead, with a new caption and icon
+- Fixed two BrowserWindow icon references in index.js that pointed at a favicon.png file that never existed (silently showed no icon); they now correctly use app/icon.png
 - Repo cleanup: moved ~2.5MB of unused files/folders (dead affiliate assets, superseded flashing-tool v1, old splash/logo art, a leftover legacy Grbl firmware binary, stray dev scripts) into File13/ for review rather than deleting outright — see File13/README.md for the full inventory and reasoning
 - Removed dead "carveco"/"fabber" affiliate socket handlers from index.js (no UI entry point called them)
 - Removed a stale commented-out <script> tag in app/index.html left over from the old flashing tool

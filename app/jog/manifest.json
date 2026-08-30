@@ -1,6 +1,6 @@
 {
-    "name": "OpenBuildsCONTROL Jog",
-    "short_name": "OpenBuildsCONTROL Jog",
+    "name": "ConcatCNC Jog",
+    "short_name": "ConcatCNC Jog",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

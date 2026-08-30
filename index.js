@@ -733,11 +733,11 @@ io.on("connection", function(socket) {
     })
   })
 
-  socket.on("openbuilds", function(data) {
+  socket.on("visitwebsite", function(data) {
     const {
       shell
     } = require('electron')
-    shell.openExternal('https://www.openbuilds.com')
+    shell.openExternal('https://www.concatcnc.com')
   });
 
   socket.on("openbuildspartstore", function(data) {
@@ -795,9 +795,8 @@ io.on("connection", function(socket) {
       title: "OpenBuilds CONTROL: Chromium's GPU Report",
       frame: true,
       autoHideMenuBar: true,
-      //icon: '/app/favicon.png',
       icon: nativeImage.createFromPath(
-        path.join(__dirname, "/app/favicon.png")
+        path.join(__dirname, "/app/icon.png")
       ),
       webgl: true,
       experimentalFeatures: true,
@@ -3114,9 +3113,9 @@ if (isElectron()) {
         if (appIcon) {
           appIcon.displayBalloon({
             icon: nativeImage.createFromPath(iconPath),
-            title: "OpenBuilds CONTROL Started",
-            // content: "OpenBuilds CONTROL has started successfully: Active on " + ip.address() + ":" + config.webPort
-            content: "OpenBuilds CONTROL has started successfully"
+            title: "ConcatCNC Started",
+            // content: "ConcatCNC has started successfully: Active on " + ip.address() + ":" + config.webPort
+            content: "ConcatCNC has started successfully"
           })
         }
       } else {
@@ -3147,9 +3146,8 @@ if (isElectron()) {
         title: "OpenBuilds CONTROL ",
         frame: false,
         autoHideMenuBar: true,
-        //icon: '/app/favicon.png',
         icon: nativeImage.createFromPath(
-          path.join(__dirname, "/app/favicon.png")
+          path.join(__dirname, "/app/icon.png")
         ),
         webgl: true,
         experimentalFeatures: true,

@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-    <title>OpenBuilds CONTROL</title>
+    <title>ConcatCNC</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="author" content="openbuilds.com">
@@ -33,7 +33,7 @@
     <div class="window" style="height: 100vh;">
       <div class="window-caption bg-openbuilds" style="-webkit-app-region: drag;">
         <span class="icon"><img src="../icon-transparent.png" /></span>
-        <span class="title" id="windowtitle">OpenBuilds CONTROL</span>
+        <span class="title" id="windowtitle">ConcatCNC</span>
         <div class="buttons" style="-webkit-app-region: no-drag">
         </div>
       </div>
@@ -41,10 +41,10 @@
 
         <div class="toolbar" data-role="buttongroup">
 
-          <select class="success" data-role="select" data-filter="false" id="portUSB" disabled>
+          <select class="alert" data-role="select" data-filter="false" id="portUSB" disabled>
             <option value="">Waiting for USB</option>
           </select>
-          <button class="button success mb-2 mr-1" onclick="selectPort()" id="connectBtn" type="button" disabled><i class="fas fa-plug"></i></button>
+          <button class="button alert mb-2 mr-1" onclick="selectPort()" id="connectBtn" type="button" disabled><i class="fas fa-plug"></i></button>
           <button class="button alert mb-2 mr-1" style="display:none;" onclick="closePort()" id="disconnectBtn" type="button"><i class="fas fa-plug"></i> Disconnect</button>
 
           <button class="button mr-1" onclick="socket.emit('clearAlarm', 2)">

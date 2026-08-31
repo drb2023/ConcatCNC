@@ -15,8 +15,8 @@ function setConnectBar(val, status) {
     } else {
       $("#connectBtn").attr('disabled', true);
     }
-    $('#portUSB').parent(".select").addClass('success')
-    $('#portUSB').parent(".select").removeClass('alert')
+    $('#portUSB').parent(".select").addClass('alert')
+    $('#portUSB').parent(".select").removeClass('success')
     $('.macrobtn').removeClass('disabled')
     $('.grblCalibrationMenu').addClass("disabled")
     // Set Port Dropdown to Current Value

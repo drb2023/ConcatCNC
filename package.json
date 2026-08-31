@@ -1,8 +1,8 @@
 {
-  "name": "OpenBuildsCONTROL",
+  "name": "ConcatCNC",
   "version": "1.0.390",
   "license": "AGPL-3.0",
-  "description": "OpenBuildsCONTROL CNC Machine Host Software",
+  "description": "ConcatCNC CNC Machine Host Software",
   "author": "github.com/openbuilds <support@openbuilds.com>",
   "resolutions": {
     "@electron/notarize": "2.3.2"
@@ -45,7 +45,7 @@
   "keywords": [
     "usb"
   ],
-  "repository": "https://github.com/OpenBuilds/OpenBuilds-CONTROL",
+  "repository": "https://github.com/drb2023/ConcatCNC",
   "build": {
     "publish": [
       {
@@ -72,7 +72,7 @@
     },
     "icon": "build/icon.icns",
     "appId": "openbuilds.control",
-    "productName": "OpenBuildsCONTROL",
+    "productName": "ConcatCNC",
     "asar": true,
     "nsis": {
       "oneClick": false,

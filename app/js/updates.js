@@ -11,7 +11,7 @@ function checkUpdate() {
     setTimeout(function() {
       // console.log('checking for update')
       printLog("<span class='fg-darkRed'>[ update ] </span><span class='fg-darkGray'>Checking for Updates</span>")
-      $.getJSON("https://api.github.com/repos/OpenBuilds/OpenBuilds-CONTROL/releases/latest", {
+      $.getJSON("https://api.github.com/repos/drb2023/ConcatCNC/releases/latest", {
         crossDomain: true
       }).done(function(release) {
         if (release.name.indexOf("v") == 0) {
@@ -25,14 +25,14 @@ function checkUpdate() {
         if (versionCompare(availVersion, currentVersion) == 1) {
           console.log('outdated')
           time = 10
-          printLog("<span class='fg-darkRed'>[ Update Available! ] </span><span class='fg-green'>OpenBuilds CONTROL <code>" + availVersion + "</code>. is available now.</span>")
+          printLog("<span class='fg-darkRed'>[ Update Available! ] </span><span class='fg-green'>ConcatCNC <code>" + availVersion + "</code>. is available now.</span>")
           printLog("<span class='fg-darkRed'>[ Update Available! ] </span><span class='fg-darkGray'>Download will start in <span class='tally' id='countdown'>10</span> seconds (<a href='#' onclick='cancelTimer();'>cancel</a>) </span>")
           printLog("<span class='fg-darkRed'>[ Update Available! ] </span><span class='fg-darkGray'>You will be prompted when its ready to be installed </span>")
           setTimeout(function() {
             updateTime();
           }, 1000);
         } else {
-          printLog("<span class='fg-darkRed'>[ update ] </span><span class='fg-green'>You are already running OpenBuilds CONTROL " + currentVersion + "</span>")
+          printLog("<span class='fg-darkRed'>[ update ] </span><span class='fg-green'>You are already running ConcatCNC " + currentVersion + "</span>")
           // setTimeout(function() {
           //   checkUpdate()
           // }, 60 * 60 * 1000) // 60 mins

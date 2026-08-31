@@ -29,13 +29,13 @@ function setWindowTitle(status) {
   }
 
   $('#windowtitle').html(string)
-  document.title = "OpenBuilds CONTROL" + string
+  document.title = "ConcatCNC" + string
 
 }
 
 
 function getReleaseStats() {
-  var url = "https://api.github.com/repos/OpenBuilds/OpenBuilds-CONTROL/releases/latest";
+  var url = "https://api.github.com/repos/drb2023/ConcatCNC/releases/latest";
   $.getJSON(url, function(data) {
     console.log(data)
     var assets = data.assets;
@@ -68,7 +68,7 @@ function getChangelog() {
 
   $("#changelog").empty()
   var template2 = `<ul>`
-  $.get("https://raw.githubusercontent.com/OpenBuilds/OpenBuilds-CONTROL/master/CHANGELOG.txt?date=" + new Date().getTime(), function(data) {
+  $.get("https://raw.githubusercontent.com/drb2023/ConcatCNC/master/CHANGELOG.txt?date=" + new Date().getTime(), function(data) {
     var lines = data.split('\n');
     if (lines.length < 12) {
       var count = lines.length - 1
@@ -200,7 +200,7 @@ $(document).ready(function() {
       /* Call callback function here */
       socket.emit("maximize", true)
       console.log("%c                        ", "background-image: url('https://openbuilds.com/styles/uix/uix/OpenBuildsHeader_logo.png'); font-size: 41px; background-repeat: no-repeat; background-size: 183px 41px; ");
-      console.log('%cOpenBuilds CONTROL Devtools', 'font-weight: bold; font-size: 20px;color: rgb(50,80,188); text-shadow: 1px 1px 0 rgb(0,00,39)');
+      console.log('%cConcatCNC Devtools', 'font-weight: bold; font-size: 20px;color: rgb(50,80,188); text-shadow: 1px 1px 0 rgb(0,00,39)');
       console.log('%c', 'font-weight: bold; font-size: 12px;color: black; ');
       console.log('%cGeneral: Check for any errors, messages as requested by our support team', 'font-weight: bold; font-size: 12px;color: black; ');
       console.log('%c', 'font-weight: bold; font-size: 12px;color: black; ');

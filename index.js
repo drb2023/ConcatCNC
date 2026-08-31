@@ -18,7 +18,7 @@ function showErrorDialog(err, attempts) {
       buttons: ['OK'],
       title: 'Error',
       message: `An error occured.`,
-      detail: `${err.message}\r\r\rIf you feel this shouldn't be happening, please report it at:\r\rhttps://github.com/OpenBuilds/OpenBuilds-CONTROL/issues`,
+      detail: `${err.message}\r\r\rIf you feel this shouldn't be happening, please report it at:\r\rhttps://github.com/drb2023/ConcatCNC/issues`,
     };
     let window = BrowserWindow.getFocusedWindow()
     dialog.showMessageBoxSync(window, options)
@@ -44,7 +44,7 @@ function debug_log() {
   }
 } // end Debug Logger
 
-debug_log("Starting OpenBuilds CONTROL v" + require('./package').version)
+debug_log("Starting ConcatCNC v" + require('./package').version)
 
 var config = {};
 config.webPorts = [3000, 3020, 3200, 3220]
@@ -183,7 +183,12 @@ var lastsentuploadprogress = 0;
 const electron = require('electron');
 const electronApp = electron.app;
 
-electronApp.setAppUserModelId("openbuilds.control")
+electronApp.setAppUserModelId("ConcatCNC")
+
+// Renaming package.json's name/productName to ConcatCNC would otherwise move this to a new
+// %APPDATA% folder by default, orphaning existing users' settings/machine profiles. Pin it
+// to the historical folder name so upgrades keep reading the same user data.
+electronApp.setPath('userData', join(electronApp.getPath('appData'), 'OpenBuildsCONTROL'))
 
 const {
   dialog
@@ -559,7 +564,7 @@ app.get('/activate', (req, res) => {
   debug_log(req.hostname)
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.send('Host: ' + req.hostname + ' asked to activate OpenBuilds CONTROL v' + require('./package').version);
+  res.send('Host: ' + req.hostname + ' asked to activate ConcatCNC v' + require('./package').version);
   showJogWindow()
   setTimeout(function() {
     io.sockets.emit('activate', req.hostname);
@@ -747,39 +752,18 @@ io.on("connection", function(socket) {
     shell.openExternal('https://www.openbuildspartstore.com')
   });
 
-  socket.on("lightburn", function(data) {
-    const {
-      shell
-    } = require('electron')
-    shell.openExternal('https://openbuildspartstore.com/lightburn/')
-  });
-
-  socket.on("vectric", function(data) {
-    const {
-      shell
-    } = require('electron')
-    shell.openExternal('https://openbuildspartstore.com/vectric/')
-  });
-
-  socket.on("opencam", function(data) {
-    const {
-      shell
-    } = require('electron')
-    shell.openExternal('https://cam.openbuilds.com')
-  });
-
   socket.on("opendocs", function(data) {
     const {
       shell
     } = require('electron')
-    shell.openExternal('https://docs.openbuilds.com/')
+    shell.openExternal('https://docs.concatcnc.com/')
   });
 
   socket.on("openforum", function(data) {
     const {
       shell
     } = require('electron')
-    shell.openExternal('https://openbuilds.com/threads/openbuilds-control-software.13121/')
+    shell.openExternal('https://forum.concatcnc.com/')
   });
 
   socket.on("gpuinfo", function(data) {
@@ -792,7 +776,7 @@ io.on("connection", function(socket) {
       center: true,
       resizable: true,
       maximizable: true,
-      title: "OpenBuilds CONTROL: Chromium's GPU Report",
+      title: "ConcatCNC: Chromium's GPU Report",
       frame: true,
       autoHideMenuBar: true,
       icon: nativeImage.createFromPath(
@@ -2533,7 +2517,7 @@ function parseFeedback(data) {
         pause();
         var output = {
           'command': '[external from hardware]',
-          'response': "OpenBuilds CONTROL received a FEEDHOLD notification from Grbl: This could be due to someone pressing the HOLD button (if connected)",
+          'response': "ConcatCNC received a FEEDHOLD notification from Grbl: This could be due to someone pressing the HOLD button (if connected)",
           'type': 'info'
         }
         io.sockets.emit('data', output);
@@ -2549,7 +2533,7 @@ function parseFeedback(data) {
         stop(true);
         var output = {
           'command': '[external from hardware]',
-          'response': "OpenBuilds CONTROL received a RESET/ABORT notification from Grbl: This could be due to someone pressing the RESET/ABORT button (if connected)",
+          'response': "ConcatCNC received a RESET/ABORT notification from Grbl: This could be due to someone pressing the RESET/ABORT button (if connected)",
           'type': 'info'
         }
         io.sockets.emit('data', output);
@@ -2560,7 +2544,7 @@ function parseFeedback(data) {
         unpause();
         var output = {
           'command': '[external from hardware]',
-          'response': "OpenBuilds CONTROL received a CYCLESTART/RESUME notification from Grbl: This could be due to someone pressing the CYCLESTART/RESUME button (if connected)",
+          'response': "ConcatCNC received a CYCLESTART/RESUME notification from Grbl: This could be due to someone pressing the CYCLESTART/RESUME button (if connected)",
           'type': 'info'
         }
         io.sockets.emit('data', output);
@@ -2911,7 +2895,11 @@ function addQRealtime(gcode) {
 
 function showJogWindow() {
   if (jogWindow === null) {
+    // createJogWindow()'s 'ready-to-show' handler calls showJogWindow() again once the
+    // window has actually painted - showing/focusing it here too raced that second call
+    // on a not-yet-painted window and made Windows register a duplicate taskbar icon.
     createJogWindow();
+    return;
   }
   jogWindow.show()
   jogWindow.setAlwaysOnTop(true);
@@ -3076,6 +3064,7 @@ if (isElectron()) {
         appIcon = new Tray(
           nativeImage.createFromPath(iconPath)
         )
+        appIcon.setToolTip("ConcatCNC")
         const contextMenu = Menu.buildFromTemplate([{
           label: 'Open User Interface (GUI)',
           click() {
@@ -3083,7 +3072,7 @@ if (isElectron()) {
             showJogWindow()
           }
         }, {
-          label: 'Quit OpenBuilds CONTROL (Disables all integration until started again)',
+          label: 'Quit ConcatCNC (Disables all integration until started again)',
           click() {
             if (appIcon) {
               appIcon.destroy();
@@ -3120,7 +3109,7 @@ if (isElectron()) {
         }
       } else {
         const dockMenu = Menu.buildFromTemplate([{
-          label: 'Quit OpenBuilds CONTROL (Disables all integration until started again)',
+          label: 'Quit ConcatCNC (Disables all integration until started again)',
           click() {
             // appIcon.destroy();
             electronApp.exit(0);
@@ -3143,8 +3132,9 @@ if (isElectron()) {
         center: true,
         resizable: true,
         maximizable: true,
-        title: "OpenBuilds CONTROL ",
+        title: "ConcatCNC",
         frame: false,
+        show: false,
         autoHideMenuBar: true,
         icon: nativeImage.createFromPath(
           path.join(__dirname, "/app/icon.png")

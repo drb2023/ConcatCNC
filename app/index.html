@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-    <title>OpenBuilds CONTROL</title>
+    <title>ConcatCNC</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="author" content="">
@@ -31,10 +31,10 @@
 
 
     <div class="window bd-black" style="height: 100vh; overflow-y: hidden;">
-      <div id="windowtitlebar" class="window-caption bg-black bd-black" style="-webkit-app-region: drag; height: 42px; padding-left: 3px;">
+      <div id="windowtitlebar" class="window-caption bd-black" style="-webkit-app-region: drag; height: 42px; padding-left: 3px;">
         <!-- <span class="icon mif-cog"></span> -->
         <span><img src="/img/concatcnc-logo.svg" height="40" /></span>
-        <span class="title" id="windowtitle" style="padding-left: 10px;">OpenBuilds CONTROL</span>
+        <span class="title" id="windowtitle" style="padding-left: 10px;">ConcatCNC</span>
 
         <div class="buttons" style="-webkit-app-region: no-drag">
           <span title="Minimize" class="btn-custom" onclick="socket.emit('minimize')"><i class="fas fa-window-minimize"></i></span>
@@ -295,14 +295,14 @@
               <div class="group">
                 <div class="form-group">
                   <form class="form">
-                    <select data-prepend="&nbsp;<i class='fab fa-usb'></i>" class="success" data-role="select" data-filter="false" id="portUSB" disabled>
+                    <select data-prepend="&nbsp;<i class='fab fa-usb'></i>" class="alert" data-role="select" data-filter="false" id="portUSB" disabled>
                       <option value="">Waiting for USB</option>
                     </select>
 
-                    <button class="button small success float-right" onclick="selectPort()" id="connectBtn" type="button" style="margin: 5px;" disabled>Connect</button>
+                    <button class="button small alert float-right" onclick="selectPort()" id="connectBtn" type="button" style="margin: 5px;" disabled>Connect</button>
                     <button class="button small alert" style="display:none;" onclick="closePort()" id="disconnectBtn" type="button" style="margin: 5px;">Disconnect</button>
                     <button class="button small secondary disabled" disabled style="display:none;" id="flashBtn" type="button" style="margin: 5px;">Flashing: please wait...</button>
-                    <button class="button small outline success float-right" onclick="scanNetwork();" id="scanBtn" type="button" style="margin: 5px;">Scan Network</button>
+                    <button class="button small outline alert float-right" onclick="scanNetwork();" id="scanBtn" type="button" style="margin: 5px;">Scan Network</button>
 
                     <div class="ribbon-group" id="grblButtons">
                       <hr>
@@ -324,41 +324,23 @@
               <div class="group">
                 <div>
                   <!-- Still used with browser based Open - don't delete -->
-                  <button id="openGcodeBtn" class="ribbon-button dropdown-toggle" title="Open a GCODE file">
+                  <button id="openGcodeBtn" class="ribbon-button btn-file" title="Open a GCODE file">
+                    <input class="btn-file" id="file" type="file" accept=".gcode, .gc, .tap, .nc, .cnc" />
                     <span class="icon">
                       <span class="far fa-folder-open fg-amber"></span>
                     </span>
                     <span class="caption">Open<br>G-CODE</span>
                   </button>
-                  <ul class="ribbon-dropdown" data-role="dropdown" data-duration="100">
-                    <li class="btn-file"><a href="#"><input class="btn-file" id="file" type="file" accept=".gcode, .gc, .tap, .nc, .cnc" /><i class="far fa-folder-open fa-fw"></i> <b>Open GCODE</b> from File (*.gcode, *.gc, *.tap, *.nc, *.cnc)</a>
-                    </li>
-                    <li class="divider fg-gray"></li>
-
-                    <li class="" onclick="socket.emit('opencam', true);"><a href="#"><img width="16" src="img/openbuilds.svg"> OpenBuilds CAM</a></li>
-                    <li class="" onclick="socket.emit('lightburn', true);"><a href="#"><img width="16" src="affiliates/lightburn/lightburn.png"> Lightburn</a></li>
-                    <li class="" onclick="socket.emit('vectric', true);"><a href="#"><img width="16" src="affiliates/vectric/vectric.svg"> Vectric</a></li>
-
-                  </ul>
                 </div>
 
                 <div>
                   <!-- Used in Electron only -->
-                  <button id="openGcodeBtnElectron19" class="ribbon-button dropdown-toggle" title="Open a GCODE file">
+                  <button id="openGcodeBtnElectron19" class="ribbon-button" title="Open a GCODE file" onclick="socket.emit('openFile')">
                     <span class="icon">
                       <span class="far fa-folder-open fg-amber"></span>
                     </span>
                     <span class="caption">Open<br>G-CODE</span>
                   </button>
-                  <ul class="ribbon-dropdown" data-role="dropdown" data-duration="100">
-                    <li class="btn-file" onclick="socket.emit('openFile')"><a href="#"><i class="far fa-folder-open fa-fw"></i> <b>Open GCODE</b> from File (*.gcode, *.gc, *.tap, *.nc, *.cnc)</a> </li>
-                    <li class="divider fg-gray"></li>
-
-                    <li class="" onclick="socket.emit('opencam', true);"><a href="#"><img width="16" src="img/openbuilds.svg"> OpenBuilds CAM</a></li>
-                    <li class="" onclick="socket.emit('lightburn', true);"><a href="#"><img width="16" src="affiliates/lightburn/lightburn.png"> Lightburn</a></li>
-                    <li class="" onclick="socket.emit('vectric', true);"><a href="#"><img width="16" src="affiliates/vectric/vectric.svg"> Vectric</a></li>
-
-                  </ul>
                 </div>
 
                 <span class="title">File</span>
@@ -385,7 +367,6 @@
                     <span class="caption">Run<br>Job</span>
                   </button>
                   <ul class="ribbon-dropdown" data-role="dropdown" data-duration="100" id="toolChangesMenu">
-                    <li class="" onclick="socket.emit('opencam', true);"><a href="#"><i class="fas fa-link fa-fw"></i> Open browser to https://cam.openbuilds.com</a></li>
                   </ul>
                 </div>
 
@@ -608,7 +589,7 @@
                   <span class="icon">
                     <i class="fas fa-book" data-fa-transform=""></i>
                   </span>
-                  <span class="caption">OpenBuilds<br>Documentation</span>
+                  <span class="caption">ConcatCNC<br>Documentation</span>
                 </button>
                 <button class="ribbon-button" onclick="socket.emit('openforum', true);">
                   <span class="icon">
@@ -617,7 +598,7 @@
                       <i class="fas fa-question" data-fa-transform="shrink-8 up-1"></i>
                     </span>
                   </span>
-                  <span class="caption">OpenBuilds<br>Forum</span>
+                  <span class="caption">ConcatCNC<br>Forum</span>
                 </button>
                 <span class="title">Support</span>
               </div>
@@ -1492,11 +1473,11 @@
       <div class="dialog dark" id="downloadUpdate" data-role="dialog" data-overlay-click-close="false" data-to-top="true">
         <div class="dialog-title">Update Ready</div>
         <div class="dialog-content">
-          OpenBuilds-CONTROL v<span id="availVersion">1.0.100</span> has finished downloading and is ready to be installed!<br>
+          ConcatCNC v<span id="availVersion">1.0.100</span> has finished downloading and is ready to be installed!<br>
           <small>Note that proceeding will:
             <ul>
               <li>Stop any running jobs</li>
-              <li>Shut down this instance of OpenBuilds CONTROL</li>
+              <li>Shut down this instance of ConcatCNC</li>
               <li>Launch the installer for the new version</li>
             </ul>
           </small>

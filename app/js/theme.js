@@ -152,6 +152,12 @@ let ThemeData = {
       localStorage.setItem("themeId", ThemeData.currentThemeId);
     }
 
+    // Logo/wordmark comes in separate light-bg/dark-bg artwork (readable outline
+    // color differs), so swap it to match whichever background it's actually
+    // sitting on rather than picking one and hoping.
+    var logoFile = ThemeData.currentThemeId == "dark" ? "concatcnc-logo-dark.svg" : "concatcnc-logo-light.svg";
+    $("#logosplashimg, #windowtitlebarlogo").attr("src", "/img/" + logoFile);
+
     $('.theme_btn').removeClass("checked");
     $('.theme_btn_' + themeId).addClass("checked");
 

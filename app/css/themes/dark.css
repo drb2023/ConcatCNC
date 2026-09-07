@@ -60,6 +60,37 @@ body.theme_dark, .theme_dark div.window, .theme_dark .card {
   background-color: var(--ink-950);
 }
 
+/* ---------- title bar ---------- */
+
+.theme_dark #windowtitlebar {
+  background-color: var(--ink-950);
+  color: var(--paper-100);
+}
+
+.theme_dark #windowtitlebar .win-caption-btn i {
+  color: var(--paper-300);
+}
+
+.theme_dark #windowtitlebar .win-caption-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.theme_dark #windowtitlebar .win-caption-btn:active {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.theme_dark #windowtitlebar .win-caption-btn-close:hover {
+  background-color: var(--ember-500);
+}
+
+.theme_dark #windowtitlebar .win-caption-btn-close:hover i {
+  color: #fff;
+}
+
+.theme_dark #windowtitlebar .win-caption-btn-close:active {
+  background-color: var(--ember-600);
+}
+
 /* ---------- ribbon menu ---------- */
 
 .theme_dark .ribbon-menu .content-holder {

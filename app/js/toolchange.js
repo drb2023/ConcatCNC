@@ -48,7 +48,7 @@ function populateToolChanges(gcode) {
 
   if (toolchanges.length) {
     $('#runBtn').hide()
-    $('#runToolsBtn').show()
+    $('#runToolsBtn').show().parent().show()
     $('#toolChangesMenu').empty();
     var dropdownTemplate = ``;
     if (toolchanges[0].lineNum > 0) {
@@ -79,7 +79,7 @@ function populateToolChanges(gcode) {
     $('#toolChangesMenu').html(dropdownTemplate)
   } else {
     $('#runBtn').show()
-    $('#runToolsBtn').hide()
+    $('#runToolsBtn').hide().parent().hide()
   }
 }
 

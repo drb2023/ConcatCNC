@@ -3,6 +3,40 @@
   color: #1a1a1a;
 }
 
+/* Window caption buttons (minimize/maximize/close), restyled to match the
+   minimal line-icon look VSCode/Chrome use instead of Metro4's boxier
+   fa-window-* glyphs -- transparent by default, a light hover for
+   minimize/maximize, and the conventional red hover for close. */
+#windowtitlebar .win-caption-btn {
+  background-color: transparent;
+  transition: background-color 80ms ease-out;
+}
+
+#windowtitlebar .win-caption-btn i {
+  font-size: 12px;
+  color: #444;
+}
+
+#windowtitlebar .win-caption-btn:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+#windowtitlebar .win-caption-btn:active {
+  background-color: rgba(0, 0, 0, 0.14);
+}
+
+#windowtitlebar .win-caption-btn-close:hover {
+  background-color: #e81123;
+}
+
+#windowtitlebar .win-caption-btn-close:hover i {
+  color: #fff;
+}
+
+#windowtitlebar .win-caption-btn-close:active {
+  background-color: #f1707a;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -313,27 +347,105 @@ button.ribbon-button.abort-btn .icon {
 /* Machine Control ribbon (#section-jog): ribbon buttons default to
    width:auto, sizing purely to their own caption text, so short captions
    like "Probe"/"Home All" end up noticeably narrower than others in the
-   same group. body has overflow-x:hidden with no scrollbar fallback
-   (metro-all.css), so anything that pushes this ~10-button row wider than
-   the window gets silently clipped -- including, at the far right, the
-   Abort/E-Stop button. A min-width tried first (widening only the narrow
-   outliers) still added ~50-90px of net new content and overflowed even
-   at 1500px wide, where this row already has zero spare width. Instead,
-   flex:1 on each group's own children redistributes that group's EXISTING
-   width evenly among its buttons -- true uniformity per group with zero
-   net width added, so it can't reintroduce that overflow. margin-left:auto
-   on the E-Stop group is separately safe/self-limiting: it only repositions
-   into space that's actually free, closing the empty gap above the Tool
-   slider without adding width either. */
+   same group and their text overran the button. body has overflow-x:hidden
+   with no scrollbar fallback (metro-all.css), so anything that pushes this
+   row wider than the window gets silently clipped -- including, at the far
+   right, the Abort/E-Stop button. A min-width was tried once before purely
+   in CSS and rejected: at the app's-then minimum window width (1000px,
+   index.js createJogWindow) this row already rendered at ~997px with zero
+   spare width in its busiest state (Run/Pause/Stop/Tool x2/Probe/Check
+   Size/Home All all visible during a job) -- confirmed by measuring the
+   real running app -- so any extra width pushed the E-Stop group off the
+   right edge. The fix was to also raise the app's own minWidth/width
+   (index.js, createJogWindow: 1000 -> 1170) so there's real headroom for
+   both wider buttons and for Run Job/Resume Job now being always-visible
+   (dimmed) instead of toggled -- one more permanently-visible button that
+   the old 1000px floor had no room for regardless of button width. estop
+   keeps flex-shrink:0 so Abort/Unlock Alarm are the last thing to ever give
+   up width if some future addition reintroduces a squeeze.
+
+   Dave explicitly does NOT want the Control group's buttons to stretch as
+   the window grows (a flex-grow-based fill was tried and rejected -- it
+   read as widening gaps between buttons rather than bigger buttons, and he
+   wants the row left-aligned with any extra window width left as a single
+   gap on the right, same as every other group here already behaves). So
+   #controlBtnGrp buttons get a fixed width instead of flex:1 -- see below --
+   which also guarantees true uniformity: flex:1 alone measured Tool On/Off
+   ~10-15px narrower than their siblings (their wrapping <div> also holds a
+   dropdown-toggle <ul>, which was throwing off that div's share of the
+   group's flex-distributed width), and a fixed width sidesteps that
+   entirely rather than chasing why. */
 
 #section-jog .group.estop {
   margin-left: auto;
+  flex-shrink: 0;
+}
+
+#section-jog .group.estop > *:not(.title) {
+  min-width: 52px;
 }
 
 #section-jog .group > *:not(.title) {
   flex: 1;
+  min-width: 46px;
 }
 
 #section-jog .group > div > .ribbon-button {
   width: 100%;
+}
+
+#section-jog .ribbon-button {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Control group (Run/Resume/Pause/Stop/Tool On/Tool Off/Probe/Check Size/
+   Home All): fixed, uniform button width instead of the flex:1 share above,
+   so every button is identical regardless of its own or its siblings'
+   content, and the group never stretches wider than this as the window
+   grows -- #section-jog #controlBtnGrp (2 IDs) outranks the generic
+   #section-jog .group rule (1 ID + 1 class) above. */
+#section-jog #controlBtnGrp {
+  flex-grow: 0;
+}
+
+#section-jog #controlBtnGrp > *:not(.title) {
+  flex: 0 0 52px;
+  width: 52px;
+  min-width: 0;
+}
+
+/* 3D View tab: the speed/simulate/reset-view controls used to float across
+   the bottom of the viewport (Metro4's .fixed-bottom), sitting right on top
+   of the part being previewed. Moved into a vertical stack under the
+   machine-type overlay image in the top-right corner instead -- out of the
+   way of the actual model. #overlayimg no longer positions itself (that's
+   now on the wrapper, so the two stack naturally regardless of how tall the
+   machine image turns out to be); its content is still populated by JS
+   (grbl-settings-defaults.js) as an <img>+gear-icon overlay. */
+#viewerSideControls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+#overlayimg {
+  position: relative;
+  max-width: 100px;
+}
+
+#simControlsBar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+#simControlsBar .button {
+  white-space: nowrap;
 }

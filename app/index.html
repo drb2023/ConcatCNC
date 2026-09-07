@@ -24,7 +24,7 @@
     <div class="pos-fixed pos-center" id="splash">
       <center>
         <div id="logosplash" style="display: none;">
-          <img src="/img/concatcnc-logo.svg">
+          <img id="logosplashimg" src="/img/concatcnc-logo-light.svg">
         </div>
       </center>
     </div>
@@ -33,14 +33,13 @@
     <div class="window bd-black" style="height: 100vh; overflow-y: hidden;">
       <div id="windowtitlebar" class="window-caption bd-black" style="-webkit-app-region: drag; height: 42px; padding-left: 3px;">
         <!-- <span class="icon mif-cog"></span> -->
-        <span><img src="/img/concatcnc-logo.svg" height="40" /></span>
+        <span><img id="windowtitlebarlogo" src="/img/concatcnc-logo-light.svg" height="40" /></span>
         <span class="title" id="windowtitle" style="padding-left: 10px;">ConcatCNC</span>
 
         <div class="buttons" style="-webkit-app-region: no-drag">
-          <span title="Minimize" class="btn-custom" onclick="socket.emit('minimize')"><i class="fas fa-window-minimize"></i></span>
-          <span title="Maximize" class="btn-custom" onclick="socket.emit('maximize')"><i class="fas fa-window-maximize"></i></span>
-          <span title="Toggle Fullscreen" class="btn-custom" onclick="socket.emit('fullscreen')"><i class="fas fa-desktop"></i></span>
-          <span title="Close to Tray" class="btn-custom" onclick="socket.emit('minimisetotray')"><i class="fas fa-window-close"></i></span>
+          <span title="Minimize" class="btn-custom win-caption-btn" onclick="socket.emit('minimize')"><i class="fas fa-minus"></i></span>
+          <span title="Maximize" class="btn-custom win-caption-btn" onclick="socket.emit('maximize')"><i class="far fa-square"></i></span>
+          <span title="Close to Tray" class="btn-custom win-caption-btn win-caption-btn-close" onclick="socket.emit('minimisetotray')"><i class="fas fa-times"></i></span>
         </div>
       </div>
       <div class="window-content" style="height: 100%; overflow: hidden  !important;">
@@ -1151,16 +1150,18 @@
                   </div>
                   <div class="section" id="tab-three">
                     <div id="renderArea"></div>
-                    <div style="position: absolute; top: 10px; right:10px; z-index: 1; max-width: 100px; max-width: 100px;" id="overlayimg">
-                      <!-- <img src="img/mch/acro55.png" style="max-width:100%; max-height:100%;">
-                    <span style="position: absolute; top: 3px; right:3px; z-index: 1;" class="fas fa-cogs"></span> -->
-                    </div>
-                    <div class="fixed-bottom m-3 mb-9">
-                      <button class="button dark" onclick="simSpeed();"><span class="icon"><span class="fas fa-tachometer-alt"></span></span><span class="caption"><span id="simspeedval">1</span>x</span>
-                      </button>
-                      <button id="runSimBtn" title="Run simulation" class="button dark drop-shadow" onclick="sim(0)"><i class="fas fa-fighter-jet"></i> Simulate</button>&nbsp;
-                      <button id="stopSimBtn" style="display: none;" title="Stop Sim" class="button dark drop-shadow" onclick="simstop()"><i class="fas fa-stop"></i> Stop Sim</button>&nbsp;
-                      <button id="resetViewBtn" title="Resets camera angle and zoom" class="button dark drop-shadow" onclick="resetView(object)"><i class="fas fa-stop"></i> Reset View</button>&nbsp;
+                    <div id="viewerSideControls">
+                      <div id="overlayimg">
+                        <!-- <img src="img/mch/acro55.png" style="max-width:100%; max-height:100%;">
+                      <span style="position: absolute; top: 3px; right:3px; z-index: 1;" class="fas fa-cogs"></span> -->
+                      </div>
+                      <div id="simControlsBar">
+                        <button class="button dark" onclick="simSpeed();"><span class="icon"><span class="fas fa-tachometer-alt"></span></span><span class="caption"><span id="simspeedval">1</span>x</span>
+                        </button>
+                        <button id="runSimBtn" title="Run simulation" class="button dark drop-shadow" onclick="sim(0)"><i class="fas fa-fighter-jet"></i> Simulate</button>
+                        <button id="stopSimBtn" style="display: none;" title="Stop Sim" class="button dark drop-shadow" onclick="simstop()"><i class="fas fa-stop"></i> Stop Sim</button>
+                        <button id="resetViewBtn" title="Resets camera angle and zoom" class="button dark drop-shadow" onclick="resetView(object)"><i class="fas fa-stop"></i> Reset View</button>
+                      </div>
                     </div>
                     <div id="conetext" style="position:absolute;top:0px;left:0px; padding: 0px; display:none; z-index:100;"></div>
 

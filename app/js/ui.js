@@ -128,10 +128,10 @@ function setConnectBar(val, status) {
 function setControlBar(val, status) {
   if (val == 0) { // Not Connected Yet
     if (toolchanges && toolchanges.length) {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
       $('#runBtn').hide().attr('disabled', true);
     } else {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
       $('#runBtn').hide().attr('disabled', true);
     }
     $('#grblProbeMenu').hide().attr('disabled', true);
@@ -157,10 +157,10 @@ function setControlBar(val, status) {
     if (typeof ace !== 'undefined') {
       if (toolchanges.length) {
         if (status.machine.inputs.includes('D')) {
-          $('#runToolsBtn').show().attr('disabled', true);
+          $('#runToolsBtn').attr('disabled', true).show().parent().show();
           $('#runBtn').hide().attr('disabled', true);
         } else {
-          $('#runToolsBtn').show().attr('disabled', editor.session.getLength() < 2);
+          $('#runToolsBtn').attr('disabled', editor.session.getLength() < 2).show().parent().show();
           $('#runBtn').hide().attr('disabled', editor.session.getLength() < 2);
         }
         if (webgl) {
@@ -170,7 +170,7 @@ function setControlBar(val, status) {
         }
 
       } else {
-        $('#runToolsBtn').hide().attr('disabled', editor.session.getLength() < 2);
+        $('#runToolsBtn').attr('disabled', editor.session.getLength() < 2).hide().parent().hide();
         if (status.machine.inputs.includes('D')) {
           $('#runBtn').show().attr('disabled', true);
         } else {
@@ -189,9 +189,9 @@ function setControlBar(val, status) {
       } else {
         $('#runBtn').show().attr('disabled', false);
       }
-      $('#runToolsBtn').hide().attr('disabled', false);
+      $('#runToolsBtn').attr('disabled', false).hide().parent().hide();
     }
-    $('#resumeBtn').hide().attr('disabled', true);
+    $('#resumeBtn').show().attr('disabled', true);
     $('#pauseBtn').hide().attr('disabled', true);
     $('#stopBtn').show().attr('disabled', true);
     $('#toolBtn').show().attr('disabled', false);
@@ -207,14 +207,14 @@ function setControlBar(val, status) {
     $('#grblProbeMenu').show().attr('disabled', true);
 
     if (toolchanges.length) {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).show().parent().show();
       $('#runBtn').hide().attr('disabled', true);
     } else {
-      $('#runToolsBtn').hide().attr('disabled', true);
-      $('#runBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
+      $('#runBtn').show().attr('disabled', true);
     }
     $('#chkSize').show().attr('disabled', true);
-    $('#resumeBtn').hide().attr('disabled', true);
+    $('#resumeBtn').show().attr('disabled', true);
     $('#pauseBtn').show().attr('disabled', false);
     $('#stopBtn').show().attr('disabled', false);
     $('#toolBtn').show().attr('disabled', false);
@@ -230,15 +230,15 @@ function setControlBar(val, status) {
     $('#grblProbeMenu').show().attr('disabled', true);
 
     if (toolchanges.length) {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).show().parent().show();
       $('#runBtn').hide().attr('disabled', true);
     } else {
-      $('#runToolsBtn').hide().attr('disabled', true);
-      $('#runBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
+      $('#runBtn').show().attr('disabled', true);
     }
     $('#chkSize').show().attr('disabled', true);
     if (status.machine.inputs.includes('D')) {
-      $('#resumeBtn').hide().attr('disabled', true);
+      $('#resumeBtn').show().attr('disabled', true);
       $('#pauseBtn').show().attr('disabled', true);
     } else {
       $('#resumeBtn').show().attr('disabled', false);
@@ -259,15 +259,15 @@ function setControlBar(val, status) {
     $('#grblProbeMenu').show().attr('disabled', true);
 
     if (toolchanges.length) {
-      $('#runToolsBtn').show().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).show().parent().show();
       $('#runBtn').hide().attr('disabled', true);
     } else {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
       $('#runBtn').show().attr('disabled', true);
     }
     // $('#runBtn').show().attr('disabled', true);
     $('#chkSize').show().attr('disabled', true);
-    $('#resumeBtn').hide().attr('disabled', true);
+    $('#resumeBtn').show().attr('disabled', true);
     $('#pauseBtn').hide().attr('disabled', true);
     $('#stopBtn').show().attr('disabled', true);
     $('#toolBtn').show().attr('disabled', true);
@@ -283,10 +283,10 @@ function setControlBar(val, status) {
     $('#grblProbeMenu').show().attr('disabled', true);
 
     if (toolchanges.length) {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
       $('#runBtn').hide().attr('disabled', true);
     } else {
-      $('#runToolsBtn').hide().attr('disabled', true);
+      $('#runToolsBtn').attr('disabled', true).hide().parent().hide();
       $('#runBtn').hide().attr('disabled', true);
     }
     $('#chkSize').show().attr('disabled', true);

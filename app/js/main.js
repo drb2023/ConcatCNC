@@ -111,12 +111,12 @@ $(document).ready(function() {
 
   if (navigator.userAgent.indexOf('Electron') >= 0) {
     console.log("Native Dialog Button Enabled")
-    $("#openGcodeBtn").hide()
-    $("#openGcodeBtnElectron19").show()
+    $("#openGcodeBtn").hide().parent().hide()
+    $("#openGcodeBtnElectron19").show().parent().show()
   } else {
     console.log("Native Dialog Button Disabled")
-    $("#openGcodeBtn").show()
-    $("#openGcodeBtnElectron19").hide()
+    $("#openGcodeBtn").show().parent().show()
+    $("#openGcodeBtnElectron19").hide().parent().hide()
   }
 
 

@@ -597,13 +597,32 @@ function resetView(object) {
 function drawMachineCoordinates(status) {
 
   if (laststatus != undefined && grblParams.$130 !== undefined && grblParams.$131 !== undefined && grblParams.$132 !== undefined) {
-    var machineCoordinatesBoxMaxX = status.machine.position.work.x - status.machine.position.offset.x
-    var machineCoordinatesBoxMaxY = status.machine.position.work.y - status.machine.position.offset.y
-    var machineCoordinatesBoxMaxZ = status.machine.position.work.z - status.machine.position.offset.z
+    var homeX = status.machine.position.work.x - status.machine.position.offset.x
+    var homeY = status.machine.position.work.y - status.machine.position.offset.y
+    var homeZ = status.machine.position.work.z - status.machine.position.offset.z
 
-    var machineCoordinatesBoxMinX = machineCoordinatesBoxMaxX - grblParams.$130
-    var machineCoordinatesBoxMinY = machineCoordinatesBoxMaxY - grblParams.$131
-    var machineCoordinatesBoxMinZ = machineCoordinatesBoxMaxZ - grblParams.$132
+    // $23 (Homing direction invert, mask) tells us which corner "home" (machine
+    // coordinate 0) actually is per axis: bit set = homes to the max/positive
+    // corner, so the rest of the travel envelope is on the negative side of
+    // home; bit clear = homes to the min/negative corner, so the envelope is
+    // on the positive side instead. Getting this backwards draws the box on
+    // the wrong side of the part entirely for any machine homed to the
+    // min/negative corner (a very common setup, e.g. bottom-left zero with
+    // positive-only work coordinates) -- defaults to the max-corner/negative
+    // assumption (this function's original, only behavior) if $23 isn't
+    // known yet.
+    var homingDirMask = parseInt(grblParams.$23) || 0;
+    var xHomesPositive = (homingDirMask & 1) !== 0;
+    var yHomesPositive = (homingDirMask & 2) !== 0;
+    var zHomesPositive = (homingDirMask & 4) !== 0;
+
+    var machineCoordinatesBoxMaxX = xHomesPositive ? homeX : homeX + grblParams.$130;
+    var machineCoordinatesBoxMaxY = yHomesPositive ? homeY : homeY + grblParams.$131;
+    var machineCoordinatesBoxMaxZ = zHomesPositive ? homeZ : homeZ + grblParams.$132;
+
+    var machineCoordinatesBoxMinX = xHomesPositive ? homeX - grblParams.$130 : homeX;
+    var machineCoordinatesBoxMinY = yHomesPositive ? homeY - grblParams.$131 : homeY;
+    var machineCoordinatesBoxMinZ = zHomesPositive ? homeZ - grblParams.$132 : homeZ;
 
     console.log("X", machineCoordinatesBoxMinX, machineCoordinatesBoxMaxX)
     console.log("Y", machineCoordinatesBoxMinY, machineCoordinatesBoxMaxY)

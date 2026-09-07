@@ -27,30 +27,38 @@ function convertParsedDataToObject(jsonData) {
   var positions = [];
   var colors = [];
 
-  for (i = 0; i < parsedData.linePoints.length; i++) {
+  // Each gcode move gets its own independent segment (drawn via LineSegments,
+  // not a single continuous strip) so its color never blends with the move
+  // before/after it. Previously this was one continuous THREE.Line with a
+  // color per vertex, so a rapid (green) point next to a cut (red) point
+  // interpolated across the whole segment between them - and since the
+  // theme's RGB values (0-200) were pushed unnormalized instead of 0-1,
+  // that interpolation overshot and clamped to solid yellow for nearly the
+  // entire segment, making most rapid/cut transitions render as yellow.
+  for (i = 1; i < parsedData.linePoints.length; i++) {
 
-    var x = parsedData.linePoints[i].x;
-    var y = parsedData.linePoints[i].y;
-    var z = parsedData.linePoints[i].z;
-    positions.push(x, y, z);
+    var p0 = parsedData.linePoints[i - 1];
+    var p1 = parsedData.linePoints[i];
 
-    if (parsedData.linePoints[i].g == 0) {
-      colors.push(Theme.lines[0].R);
-      colors.push(Theme.lines[0].G);
-      colors.push(Theme.lines[0].B);
-    } else if (parsedData.linePoints[i].g == 1) {
-      colors.push(Theme.lines[1].R);
-      colors.push(Theme.lines[1].G);
-      colors.push(Theme.lines[1].B);
-    } else if (parsedData.linePoints[i].g == 2) {
-      colors.push(Theme.lines[2].R);
-      colors.push(Theme.lines[2].G);
-      colors.push(Theme.lines[2].B);
+    positions.push(p0.x, p0.y, p0.z);
+    positions.push(p1.x, p1.y, p1.z);
+
+    var lineColor;
+    if (p1.g == 0) {
+      lineColor = Theme.lines[0];
+    } else if (p1.g == 1) {
+      lineColor = Theme.lines[1];
+    } else if (p1.g == 2) {
+      lineColor = Theme.lines[2];
     } else {
-      colors.push(Theme.lines[3].R);
-      colors.push(Theme.lines[3].G);
-      colors.push(Theme.lines[3].B);
+      lineColor = Theme.lines[3];
     }
+
+    var r = lineColor.R / 255;
+    var g = lineColor.G / 255;
+    var b = lineColor.B / 255;
+    colors.push(r, g, b);
+    colors.push(r, g, b);
 
   }
 
@@ -59,7 +67,7 @@ function convertParsedDataToObject(jsonData) {
 
   geometry.computeBoundingSphere();
 
-  var line = new THREE.Line(geometry, material);
+  var line = new THREE.LineSegments(geometry, material);
   line.geometry.computeBoundingBox();
   var box = line.geometry.boundingBox.clone();
   // line.userData.lines = parsedData.lines

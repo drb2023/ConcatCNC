@@ -371,7 +371,13 @@ function checkPowerSettings() {
 
 var oldiplist;
 var oldpinslist;
-const iconPath = path.join(__dirname, 'app/icon.png');
+// On Windows, nativeImage reads every size embedded in a .ico and the OS picks
+// the best match per context (taskbar button, title bar, alt-tab, tray) --
+// app/icon.ico embeds a simplified small-size icon alongside the full-detail
+// one so the taskbar/tray icon doesn't just get the full artwork crushed down
+// and turned to mush. Other platforms don't get that same multi-res behavior
+// from an .ico, so they keep the plain PNG.
+const iconPath = path.join(__dirname, process.platform === 'win32' ? 'app/icon.ico' : 'app/icon.png');
 const iconNoComm = path.join(__dirname, 'app/icon-notconnected.png');
 const iconPlay = path.join(__dirname, 'app/icon-play.png');
 const iconStop = path.join(__dirname, 'app/icon-stop.png');
@@ -814,14 +820,6 @@ io.on("connection", function(socket) {
       jogWindow.unmaximize();
     } else {
       jogWindow.maximize();
-    }
-  });
-
-  socket.on("fullscreen", function(data) {
-    if (jogWindow.isFullScreen()) {
-      jogWindow.setFullScreen(false);
-    } else {
-      jogWindow.setFullScreen(true);
     }
   });
 
@@ -3124,8 +3122,8 @@ if (isElectron()) {
       // Create the browser window.
       jogWindow = new BrowserWindow({
         // 1366 * 768 == minimum to cater for
-        width: 1000,
-        minWidth: 1000,
+        width: 1170,
+        minWidth: 1170,
         height: 850,
         minHeight: 850,
         fullscreen: false,

@@ -3733,7 +3733,17 @@ function scanForTelnetDevices(range) {
     target: range,
     port: '23',
     status: 'TROU', // Timeout, Refused, Open, Unreachable
-    banner: true
+    banner: true,
+    // evilscan defaults to 500 simultaneous sockets, which bursts a connect
+    // attempt (and the ARP lookup behind it) to every address in the range
+    // almost at once. Consumer mesh systems commonly can't keep up with that
+    // and drop packets under the load -- including, sometimes, the one from
+    // the actual machine we're looking for. A much lower concurrency (with a
+    // longer per-socket timeout to allow for extra mesh hop latency) is
+    // slower but far more reliable across the range of routers this app
+    // gets used on.
+    concurrency: 24,
+    timeout: 3000
   };
 
   var output = {

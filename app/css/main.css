@@ -34,13 +34,15 @@ body {
 }
 
 #jogcontrols {
-  /* Note only uses height attribs from here, before we connect to websocket. After that, it gets set by websocket.js */
-  height: 240px;
+  /* Grown from 240px to fit the XY radial jog pad (diagonals + inner/outer rings +
+     center distance-cycle button); #macros/#renderArea/#editor/#console below share
+     this same vertical budget within #manualControlPanel, so their calc(100vh - Npx)
+     offsets are increased by the same +112px delta. */
+  height: 352px;
 }
 
 #macros {
-  /* Note only uses height attribs from here, before we connect to websocket. After that, it gets set by websocket.js */
-  height: calc(100vh - 495px);
+  height: calc(100vh - 607px);
   width: 100%;
   border-top: 1px solid #ccc;
   /* margin-top: 5px; */
@@ -49,8 +51,7 @@ body {
 }
 
 #renderArea {
-  /* Note only uses height attribs from here, before we connect to websocket. After that, it gets set by websocket.js */
-  height: calc(100vh - 495px);
+  height: calc(100vh - 607px);
   width: 100%;
   border-top: 1px solid #ccc;
   /* margin-top: 5px; */
@@ -59,8 +60,7 @@ body {
 }
 
 #editor {
-  /* Note only uses height attribs from here, before we connect to websocket. After that, it gets set by websocket.js */
-  height: calc(100vh - 535px);
+  height: calc(100vh - 647px);
   width: 100%;
   border-top: 1px solid #ccc;
   /* margin-top: 5px; */
@@ -87,7 +87,7 @@ body {
 #console {
   /*font-family: "Courier New", Courier, monospace;*/
   font-family: "Lucida Console", Monaco, monospace;
-  height: calc(100vh - 535px);
+  height: calc(100vh - 647px);
   width: 100%;
   overflow-y: auto;
   overflow-x: none;
@@ -170,29 +170,29 @@ select {
   display: block;
 }
 
-/* OpenBuilds Navbar for MetroWindows */
-.fg-openbuilds {
+/* Accent color utilities for MetroWindows */
+.fg-accent {
   color: rgb(0, 0, 0) !important;
 }
 
-.bg-openbuilds {
+.bg-accent {
   background-color: rgb(0, 0, 0) !important;
 }
 
-.bd-openbuilds {
+.bd-accent {
   border-color: rgb(0, 0, 0) !important;
 }
 
-.openbuilds-switch .check::after {
+.accent-switch .check::after {
   : rgb(0, 0, 0) !important;
   border-color: rgb(0, 0, 0) !important;
 }
 
-.openbuilds-switch input[type="checkbox"]:checked~.check {
+.accent-switch input[type="checkbox"]:checked~.check {
   background: rgb(0, 0, 0) !important;
 }
 
-.openbuilds-switch input[type="checkbox"]:checked~.check::after {
+.accent-switch input[type="checkbox"]:checked~.check::after {
   border-color: #ffffff !important;
   background: #ffffff !important;
 }
@@ -285,4 +285,55 @@ select {
 
 .step-list>li::before {
   color: #111 !important;
+}
+
+/* Abort/E-Stop: the whole button is red rather than an icon shape behind
+   the hand. Element-qualified so it reliably outranks .theme_dark
+   .ribbon-button (equal class count) regardless of cascade order, since
+   themes/dark.css is injected after this file. */
+button.ribbon-button.abort-btn {
+  background: #e8262f;
+  border-radius: 8px;
+  color: #fff;
+}
+
+button.ribbon-button.abort-btn:hover {
+  background: #c41f27;
+}
+
+button.ribbon-button.abort-btn:active {
+  background: #9c191f;
+}
+
+button.ribbon-button.abort-btn .caption,
+button.ribbon-button.abort-btn .icon {
+  color: #fff;
+}
+
+/* Machine Control ribbon (#section-jog): ribbon buttons default to
+   width:auto, sizing purely to their own caption text, so short captions
+   like "Probe"/"Home All" end up noticeably narrower than others in the
+   same group. body has overflow-x:hidden with no scrollbar fallback
+   (metro-all.css), so anything that pushes this ~10-button row wider than
+   the window gets silently clipped -- including, at the far right, the
+   Abort/E-Stop button. A min-width tried first (widening only the narrow
+   outliers) still added ~50-90px of net new content and overflowed even
+   at 1500px wide, where this row already has zero spare width. Instead,
+   flex:1 on each group's own children redistributes that group's EXISTING
+   width evenly among its buttons -- true uniformity per group with zero
+   net width added, so it can't reintroduce that overflow. margin-left:auto
+   on the E-Stop group is separately safe/self-limiting: it only repositions
+   into space that's actually free, closing the empty gap above the Tool
+   slider without adding width either. */
+
+#section-jog .group.estop {
+  margin-left: auto;
+}
+
+#section-jog .group > *:not(.title) {
+  flex: 1;
+}
+
+#section-jog .group > div > .ribbon-button {
+  width: 100%;
 }

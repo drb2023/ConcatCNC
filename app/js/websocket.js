@@ -1056,6 +1056,23 @@ function scanNetwork() {
       </form>
     </div>
   </div>
+  <hr>
+  <div class="row mt-2">
+    <div class="cell-md-12 mb-1">
+      Already know the machine's IP address? Some networks (mesh WiFi, guest/IoT VLANs, client isolation) can block the scan above even though a direct connection would still work. Enter it here to skip the scan and connect straight to it:
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="cell-md-3 mb-1">Machine IP</div>
+    <div class="cell-md-9 mb-1">
+      <form class="inline-form">
+        <input id="directIp1" type="number" data-clear-button="false" style="width: 80px;" data-append="." data-editable="true" value="` + currentIp[0] + `">.
+        <input id="directIp2" type="number" data-clear-button="false" style="width: 80px;" data-append="." data-editable="true" value="` + currentIp[1] + `">.
+        <input id="directIp3" type="number" data-clear-button="false" style="width: 80px;" data-append="." data-editable="true" value="` + currentIp[2] + `">.
+        <input id="directIp4" type="number" data-clear-button="false" style="width: 80px;" data-editable="true" value="">
+      </form>
+    </div>
+  </div>
   `
 
   Metro.dialog.create({
@@ -1073,6 +1090,18 @@ function scanNetwork() {
         socket.emit('scannetwork', range)
         $('#controlTab').click();
         $('#consoletab').click();
+      }
+    }, {
+      caption: "Connect by IP",
+      cls: "js-dialog-close primary",
+      onclick: function() {
+        var ip = $("#directIp1").val() + '.' + $("#directIp2").val() + '.' + $("#directIp3").val() + '.' + $("#directIp4").val();
+        if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) {
+          selectPort(ip);
+          $('#controlTab').click();
+        } else {
+          printLog("[connect] Enter a complete IP address (all four fields) to connect directly");
+        }
       }
     }, {
       caption: "Cancel",

@@ -96,7 +96,7 @@ function getChangelog() {
 
 $(document).ready(function() {
 
-  $('#openbuildslogosplash').fadeIn(100);
+  $('#logosplash').fadeIn(100);
   setTimeout(function() {
     $('#splash').fadeOut(500);
   }, 1400)
@@ -199,7 +199,7 @@ $(document).ready(function() {
     get: function() {
       /* Call callback function here */
       socket.emit("maximize", true)
-      console.log("%c                        ", "background-image: url('https://openbuilds.com/styles/uix/uix/OpenBuildsHeader_logo.png'); font-size: 41px; background-repeat: no-repeat; background-size: 183px 41px; ");
+      console.log("%c                        ", "background-image: url('https://concatcnc.com/assets/img/concatcnc-header-logo.png'); font-size: 41px; background-repeat: no-repeat; background-size: 183px 41px; ");
       console.log('%cConcatCNC Devtools', 'font-weight: bold; font-size: 20px;color: rgb(50,80,188); text-shadow: 1px 1px 0 rgb(0,00,39)');
       console.log('%c', 'font-weight: bold; font-size: 12px;color: black; ');
       console.log('%cGeneral: Check for any errors, messages as requested by our support team', 'font-weight: bold; font-size: 12px;color: black; ');

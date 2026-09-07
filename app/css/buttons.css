@@ -196,3 +196,377 @@
 .command-button-macro {
   height: 70px;
 }
+
+/* ==========================================================================
+   Modernized jog control pad
+   Scoped to .jog-pad / .jogtable so no other buttons in the app are affected.
+   ========================================================================== */
+
+.jog-pad {
+  display: inline-block;
+  background: #fbfbfc;
+  border: 1px solid #e8e8ea;
+  border-radius: 16px;
+  padding: 10px 12px 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.jog-pad .jogtable {
+  border-collapse: separate;
+  border-spacing: 6px 5px;
+}
+
+.jog-pad .jogtable td {
+  padding: 0;
+  vertical-align: bottom;
+}
+
+/* Directional pad buttons (X-/X+/Y-/Y+/Z-/Z+/A-/A+) */
+.jog-pad button.square.jogbtn {
+  border-radius: 12px;
+  border: 1px solid #e2e2e4;
+  background: linear-gradient(#ffffff, #f4f4f5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out, background 80ms ease-out, border-color 80ms ease-out;
+}
+
+.jog-pad button.square.jogbtn .fa-layers {
+  font-size: 1.3em;
+}
+
+.jog-pad button.square.jogbtn:hover {
+  border-color: #d2d2d4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.jog-pad button.square.jogbtn:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(#eeeeef, #e5e5e6);
+  transition-duration: 40ms;
+}
+
+/* Per-axis hover tint, matching the existing red/green/blue/orange icon colors */
+.jog-pad button.xM:hover, .jog-pad button.xP:hover {
+  background: linear-gradient(#fff6f6, #fde9e9);
+  border-color: #f2c8c8;
+}
+
+.jog-pad button.yM:hover, .jog-pad button.yP:hover {
+  background: linear-gradient(#f5fbf1, #e8f7de);
+  border-color: #c9e7ba;
+}
+
+.jog-pad button.zM:hover, .jog-pad button.zP:hover {
+  background: linear-gradient(#f0f9fd, #e2f1fb);
+  border-color: #bbdcf0;
+}
+
+.jog-pad button.aM:hover, .jog-pad button.aP:hover {
+  background: linear-gradient(#fff9f1, #fdedda);
+  border-color: #f2d3a8;
+}
+
+/* Distance / increment buttons + incremental-continuous toggle row */
+.jog-pad .distbtn {
+  border-radius: 8px;
+  border: 1px solid #e2e2e4;
+  background: #ffffff;
+  transition: background 80ms ease-out, border-color 80ms ease-out;
+}
+
+.jog-pad .distbtn:hover {
+  border-color: #d2d2d4;
+  background: #f6f6f7;
+}
+
+.jog-pad .distbtn.bd-accent {
+  border: 2px solid rgb(0, 0, 0);
+}
+
+/* ==========================================================================
+   XY radial jog grid: inner ring = incremental, outer ring = continuous,
+   diagonals, and a center distance-cycle button.
+   Scoped to .jog-xy-grid so it cannot affect the mobile /jog/ page, which
+   keeps its own simple layout and its own #xP/#yP/etc elements.
+   ========================================================================== */
+
+.jog-radial {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jog-xy-grid {
+  display: grid;
+  grid-template-columns: 36px 54px 56px 54px 36px;
+  grid-template-rows: 36px 54px 56px 54px 36px;
+  gap: 4px;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-template-areas:
+    "nwOut .    nOut   .    neOut"
+    ".     nwIn nIn    neIn ."
+    "wOut  wIn  center eIn  eOut"
+    ".     swIn sIn    seIn ."
+    "swOut .    sOut   .    seOut";
+}
+
+.jog-xy-grid #yP { grid-area: nIn; }
+.jog-xy-grid #yM { grid-area: sIn; }
+.jog-xy-grid #xM { grid-area: wIn; }
+.jog-xy-grid #xP { grid-area: eIn; }
+
+/* Shrink the reused cardinal buttons (normally 75px via the global .square.xlarge
+   rule) to match the new, more compact ring sizing. Scoped + !important because
+   the global rule is itself a 3-class selector we must outrank without touching
+   the shared buttons.css rule other pages still use. */
+.jog-xy-grid #yP,
+.jog-xy-grid #yM,
+.jog-xy-grid #xM,
+.jog-xy-grid #xP {
+  width: 54px !important;
+  height: 54px !important;
+}
+
+.axis-col button {
+  width: 54px !important;
+  height: 54px !important;
+}
+
+.jog-xy-grid #yP .fa-layers,
+.jog-xy-grid #yM .fa-layers,
+.jog-xy-grid #xM .fa-layers,
+.jog-xy-grid #xP .fa-layers,
+.axis-col .fa-layers {
+  font-size: 0.72em;
+}
+
+.jog-xy-grid .jog-diag-in.ne { grid-area: neIn; }
+.jog-xy-grid .jog-diag-in.nw { grid-area: nwIn; }
+.jog-xy-grid .jog-diag-in.se { grid-area: seIn; }
+.jog-xy-grid .jog-diag-in.sw { grid-area: swIn; }
+
+.jog-xy-grid .jog-cardinal-out.n { grid-area: nOut; }
+.jog-xy-grid .jog-cardinal-out.s { grid-area: sOut; }
+.jog-xy-grid .jog-cardinal-out.e { grid-area: eOut; }
+.jog-xy-grid .jog-cardinal-out.w { grid-area: wOut; }
+
+.jog-xy-grid .jog-diag-out.ne { grid-area: neOut; }
+.jog-xy-grid .jog-diag-out.nw { grid-area: nwOut; }
+.jog-xy-grid .jog-diag-out.se { grid-area: seOut; }
+.jog-xy-grid .jog-diag-out.sw { grid-area: swOut; }
+
+.jog-xy-grid .jog-dist-cycle { grid-area: center; }
+
+.jog-xy-grid button {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+/* Outer (continuous) ring: visually distinct from the inner (incremental) ring */
+.jog-xy-grid .jog-cardinal-out,
+.jog-xy-grid .jog-diag-out {
+  background: linear-gradient(#fbfbfc, #f2f2f3);
+}
+
+.jog-xy-grid .jog-cardinal-out:hover,
+.jog-xy-grid .jog-diag-out:hover {
+  background: linear-gradient(#f5f5f6, #ebebec);
+}
+
+.jog-xy-grid .jog-cardinal-out:active,
+.jog-xy-grid .jog-diag-out:active {
+  background: linear-gradient(#e9e9ea, #dedee0);
+}
+
+.jog-xy-grid .jog-diag-in .fa-layers,
+.jog-xy-grid .jog-diag-out .fa-layers {
+  font-size: 1.1em;
+}
+
+.jog-dist-cycle {
+  border-radius: 12px;
+  background: linear-gradient(#ffffff, #f4f4f5);
+}
+
+.jog-dist-cycle .jogdistcyclelabel {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.axis-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   Dark theme for the jog pad. Tokens (--ink-*, --ember-*, --shadow-*) are
+   defined on body.theme_dark in ../themes/dark.css.
+
+   Hybrid finish: the inner ring (incremental — real motion) stays "crisp"
+   with a visible rim so pressed/idle reads at a glance under shop lighting.
+   The outer ring (continuous) and the toggle get the full soft-shadow
+   neumorphic treatment since they're lower-stakes / purely informational.
+   The center distance-cycle button and go-to-zero use the ember accent —
+   the app's one color, reserved for what you reach for most and what
+   matters most. Selectors are qualified with the element type + enough
+   classes to reliably outrank the generic .theme_dark .button.light rule
+   in themes/dark.css regardless of cascade order.
+   ========================================================================== */
+
+.theme_dark .jog-pad {
+  background: var(--ink-900);
+  border-color: var(--ink-700);
+  box-shadow: 6px 6px 16px rgba(0, 0, 0, .45);
+}
+
+/* Inner ring (cardinal + diagonal, incremental) — no border at rest; a red
+   border is the "on press" tactile confirmation, not a persistent rim. */
+.theme_dark .jog-pad button.square.jogbtn {
+  border: 1px solid transparent;
+  background: linear-gradient(150deg, var(--ink-700), var(--ink-800));
+  box-shadow: 2px 2px 6px var(--shadow-dk), -1px -1px 5px var(--shadow-lt);
+  color: var(--paper-100);
+}
+
+.theme_dark .jog-pad button.square.jogbtn:hover {
+  background: linear-gradient(150deg, var(--ink-600), var(--ink-700));
+}
+
+.theme_dark .jog-pad button.square.jogbtn:active {
+  border-color: var(--ember-500);
+  background: linear-gradient(150deg, var(--ink-800), var(--ink-700));
+  box-shadow: inset 2px 2px 6px var(--shadow-dk);
+  color: var(--ember-400);
+}
+
+/* Outer ring (continuous) — same no-border-at-rest / red-on-press pattern
+   as the inner ring above. Same specificity as that rule (both qualify
+   with .square + one more class); placed after it so source order breaks
+   the tie in its favor. */
+.theme_dark .jog-pad button.square.jog-cardinal-out,
+.theme_dark .jog-pad button.square.jog-diag-out {
+  border: 1px solid transparent;
+  background: linear-gradient(150deg, var(--ink-700), var(--ink-800));
+  box-shadow: 3px 3px 8px var(--shadow-dk), -2px -2px 6px var(--shadow-lt);
+  color: var(--paper-400);
+}
+
+.theme_dark .jog-pad button.square.jog-cardinal-out:hover,
+.theme_dark .jog-pad button.square.jog-diag-out:hover {
+  color: var(--ember-400);
+  background: linear-gradient(150deg, var(--ink-600), var(--ink-700));
+}
+
+.theme_dark .jog-pad button.square.jog-cardinal-out:active,
+.theme_dark .jog-pad button.square.jog-diag-out:active {
+  border-color: var(--ember-500);
+  box-shadow: inset 2px 2px 6px var(--shadow-dk), inset -1px -1px 4px var(--shadow-lt);
+  color: var(--ember-400);
+}
+
+/* Distance/increment buttons below the pad — soft neumorphic, no border at
+   rest. The currently-selected increment (.bd-accent, toggled in jog.js)
+   gets a bright, deliberately non-red ring so "which increment is active"
+   never gets confused with the red press-feedback used everywhere else. */
+.theme_dark .jog-pad button.distbtn {
+  border: 1px solid transparent;
+  background: linear-gradient(150deg, var(--ink-700), var(--ink-800));
+  box-shadow: 2px 2px 6px var(--shadow-dk), -1px -1px 5px var(--shadow-lt);
+  color: var(--paper-300);
+}
+
+.theme_dark .jog-pad button.distbtn:hover {
+  background: linear-gradient(150deg, var(--ink-600), var(--ink-700));
+}
+
+.theme_dark .jog-pad button.distbtn:active {
+  border-color: var(--ember-500);
+  box-shadow: inset 2px 2px 6px var(--shadow-dk);
+  color: var(--ember-400);
+}
+
+.theme_dark .jog-pad button.distbtn.bd-accent {
+  border-color: var(--paper-100);
+  box-shadow: 0 0 0 1px var(--paper-100), 0 0 8px rgba(243, 243, 245, .45);
+  color: var(--paper-100);
+}
+
+.theme_dark .jog-pad button.distbtn.bd-accent:hover {
+  background: linear-gradient(150deg, var(--ink-600), var(--ink-700));
+}
+
+/* Center distance-cycle button — the ember accent */
+.theme_dark .jog-pad button.jog-dist-cycle {
+  border-radius: 12px;
+  background: linear-gradient(160deg, var(--ember-400), var(--ember-700));
+  box-shadow: 3px 3px 9px var(--shadow-dk), 0 0 0 1px rgba(0, 0, 0, .25) inset;
+  color: #fff8f8;
+}
+
+.theme_dark .jog-pad button.jog-dist-cycle:hover {
+  background: linear-gradient(160deg, #ff6a70, var(--ember-600));
+}
+
+.theme_dark .jog-pad button.jog-dist-cycle:active {
+  background: linear-gradient(160deg, var(--ember-700), var(--ember-600));
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, .5);
+}
+
+/* Go-to-zero main action — the ember accent */
+.theme_dark button.button.light[onclick*="gotoZeroSmart"] {
+  background: linear-gradient(160deg, var(--ember-400), var(--ember-700));
+  box-shadow: 3px 3px 9px var(--shadow-dk), 0 0 0 1px rgba(0, 0, 0, .25) inset;
+  color: #fff8f8;
+  border-color: var(--ember-700);
+}
+
+.theme_dark button.button.light[onclick*="gotoZeroSmart"]:hover {
+  background: linear-gradient(160deg, #ff6a70, var(--ember-600));
+}
+
+/* The X/Y/Z axis-color letters (fg-red/fg-green/fg-blue) are baked in app-wide
+   for this icon; fg-red is unreadable on the ember-red button background.
+   A dark outline keeps all three legible regardless of button color. */
+.theme_dark button.button.light[onclick*="gotoZeroSmart"] .fa-layers-text {
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, .75),
+     1px -1px 0 rgba(0, 0, 0, .75),
+    -1px  1px 0 rgba(0, 0, 0, .75),
+     1px  1px 0 rgba(0, 0, 0, .75),
+     0 1px 3px rgba(0, 0, 0, .6);
+}
+
+/* Incremental / Continuous toggle */
+.theme_dark .toggle>div {
+  background: var(--ink-950);
+  border-color: var(--ink-700);
+  box-shadow: inset 2px 2px 5px var(--shadow-dk), inset -1px -1px 4px var(--shadow-lt);
+}
+
+.theme_dark .toggle>div:hover {
+  box-shadow: inset 2px 2px 5px var(--shadow-dk), inset -1px -1px 4px var(--shadow-lt), 0 0 4px var(--ink-600);
+}
+
+.theme_dark .toggle>div:before {
+  background: linear-gradient(150deg, var(--ink-600), var(--ink-800));
+  box-shadow: 1px 1px 3px var(--shadow-dk);
+}
+
+.theme_dark .toggle input:checked+div {
+  background: var(--ink-950);
+  border-color: var(--ember-700);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, .45), inset -1px -1px 4px rgba(255, 80, 88, .12);
+}
+
+.theme_dark .toggle input:checked+div:before {
+  background: linear-gradient(150deg, var(--ember-400), var(--ember-700));
+  box-shadow: 0 0 8px var(--ember-glow), 1px 1px 3px rgba(0, 0, 0, .5);
+}

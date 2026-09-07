@@ -101,11 +101,11 @@ body.theme_hicontrast, .theme_hicontrast div.window, .theme_hicontrast .card, .t
   font-family: consolas;
 }
 
-.theme_hicontrast .bg-openbuilds {
+.theme_hicontrast .bg-accent {
   background-color: #666 !important;
 }
 
-.theme_hicontrast .fg-openbuilds {
+.theme_hicontrast .fg-accent {
   color: #FFF !important;
 }
 
@@ -182,7 +182,7 @@ body.theme_hicontrast, .theme_hicontrast div.window, .theme_hicontrast .card, .t
   color: #FFF;
 }
 
-.theme_hicontrast .bd-openbuilds {
+.theme_hicontrast .bd-accent {
   border-color: #FFF !important;
 }
 

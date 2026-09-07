@@ -12,10 +12,11 @@
   /* Horizontal centering */
   align-items: center;
   /* Vertical centering */
-  background-color: #eee;
+  /* background-color: #eee; */
+  background-color: #ebf0f2;
 }
 
-#openbuildslogosplash img {
+#logosplash img {
   width: 500px;
   max-width: 100%;
   /* Ensure it scales on smaller screens */

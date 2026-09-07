@@ -46,6 +46,7 @@ function mmMode() {
   if (jogdistXYZ == 25.4) {
     jogdistXYZ = 100
   }
+  syncDistCycleLabel();
   if (typeof object !== 'undefined') {
     if (object.userData.inch) {
       if (typeof redrawGrid === "function") { // Check if function exists, because in Mobile view it does not
@@ -82,6 +83,7 @@ function inMode() {
   if (jogdistXYZ == 100) {
     jogdistXYZ = 25.4
   }
+  syncDistCycleLabel();
 
   if (typeof object !== 'undefined') {
     if (object.userData.inch) {
@@ -334,12 +336,12 @@ $(document).ready(function() {
     } else if (unit == "in") {
       jogdistXYZ = 0.0254;
     }
-    $('.distbtn').removeClass('bd-openbuilds')
-    $('#dist01').addClass('bd-openbuilds')
-    $('.jogdistXYZ').removeClass('fg-openbuilds')
+    $('.distbtn').removeClass('bd-accent')
+    $('#dist01').addClass('bd-accent')
+    $('.jogdistXYZ').removeClass('fg-accent')
     $('.jogdistXYZ').addClass('fg-gray')
     $('#dist01label').removeClass('fg-gray')
-    $('#dist01label').addClass('fg-openbuilds')
+    $('#dist01label').addClass('fg-accent')
   })
 
   $('#dist1').on('click', function(ev) {
@@ -348,12 +350,12 @@ $(document).ready(function() {
     } else if (unit == "in") {
       jogdistXYZ = 0.254;
     }
-    $('.distbtn').removeClass('bd-openbuilds')
-    $('#dist1').addClass('bd-openbuilds')
-    $('.jogdistXYZ').removeClass('fg-openbuilds')
+    $('.distbtn').removeClass('bd-accent')
+    $('#dist1').addClass('bd-accent')
+    $('.jogdistXYZ').removeClass('fg-accent')
     $('.jogdistXYZ').addClass('fg-gray')
     $('#dist1label').removeClass('fg-gray')
-    $('#dist1label').addClass('fg-openbuilds')
+    $('#dist1label').addClass('fg-accent')
   })
 
   $('#dist10').on('click', function(ev) {
@@ -362,12 +364,12 @@ $(document).ready(function() {
     } else if (unit == "in") {
       jogdistXYZ = 2.54;
     }
-    $('.distbtn').removeClass('bd-openbuilds')
-    $('#dist10').addClass('bd-openbuilds')
-    $('.jogdistXYZ').removeClass('fg-openbuilds')
+    $('.distbtn').removeClass('bd-accent')
+    $('#dist10').addClass('bd-accent')
+    $('.jogdistXYZ').removeClass('fg-accent')
     $('.jogdistXYZ').addClass('fg-gray')
     $('#dist10label').removeClass('fg-gray')
-    $('#dist10label').addClass('fg-openbuilds')
+    $('#dist10label').addClass('fg-accent')
   })
 
   $('#dist100').on('click', function(ev) {
@@ -376,19 +378,16 @@ $(document).ready(function() {
     } else if (unit == "in") {
       jogdistXYZ = 25.4;
     }
-    $('.distbtn').removeClass('bd-openbuilds')
-    $('#dist100').addClass('bd-openbuilds')
-    $('.jogdistXYZ').removeClass('fg-openbuilds')
+    $('.distbtn').removeClass('bd-accent')
+    $('#dist100').addClass('bd-accent')
+    $('.jogdistXYZ').removeClass('fg-accent')
     $('.jogdistXYZ').addClass('fg-gray')
     $('#dist100label').removeClass('fg-gray')
-    $('#dist100label').addClass('fg-openbuilds')
+    $('#dist100label').addClass('fg-accent')
   })
 
   $('#gotozeroWPos').on('click', function(ev) {
-    sendGcode('G21 G90');
-    sendGcode('G0 Z5');
-    sendGcode('G0 X0 Y0');
-    sendGcode('G0 Z0');
+    gotoZeroWorkCoord();
   });
 
   $('#gotoXzeroMpos').on('click', function(ev) {
@@ -416,13 +415,7 @@ $(document).ready(function() {
   });
 
   $('#gotozeroZmPosXYwPos').on('click', function(ev) {
-    if (grblParams['$22'] == 1) {
-      sendGcode('G53 G0 Z-' + grblParams["$27"]);
-    } else {
-      sendGcode('G53 G0 Z0');
-    }
-    sendGcode('G0 X0 Y0');
-    sendGcode('G0 Z0');
+    gotoZeroMachineZRetract();
   });
 
   $('#gotozeroMPos').on('click', function(ev) {
@@ -884,9 +877,9 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = .254;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist1').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist1').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist1label').removeClass('fg-gray')
       $('#dist1label').addClass('fg-dark')
@@ -901,12 +894,12 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = 2.54;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist10').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist10').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist10label').removeClass('fg-gray')
-      $('#dist10label').addClass('fg-openbuilds')
+      $('#dist10label').addClass('fg-accent')
     }
     if (dir == -1) {
       if (unit == "mm") {
@@ -914,12 +907,12 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = 0.0254;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist01').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist01').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist01label').removeClass('fg-gray')
-      $('#dist01label').addClass('fg-openbuilds')
+      $('#dist01label').addClass('fg-accent')
     }
   } else if (jogdistXYZ == 10 || jogdistXYZ == 2.54) {
     if (dir == 1) {
@@ -928,12 +921,12 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = 25.4;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist100').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist100').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist100label').removeClass('fg-gray')
-      $('#dist100label').addClass('fg-openbuilds')
+      $('#dist100label').addClass('fg-accent')
     }
     if (dir == -1) {
       if (unit == "mm") {
@@ -941,12 +934,12 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = 0.254;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist1').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist1').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist1label').removeClass('fg-gray')
-      $('#dist1label').addClass('fg-openbuilds')
+      $('#dist1label').addClass('fg-accent')
     }
   } else if (jogdistXYZ == 100 || jogdistXYZ == 25.4) {
     if (dir == 1) {
@@ -958,12 +951,12 @@ function changeStepSize(dir) {
       } else if (unit == "in") {
         jogdistXYZ = 2.54;
       }
-      $('.distbtn').removeClass('bd-openbuilds')
-      $('#dist10').addClass('bd-openbuilds')
-      $('.jogdistXYZ').removeClass('fg-openbuilds')
+      $('.distbtn').removeClass('bd-accent')
+      $('#dist10').addClass('bd-accent')
+      $('.jogdistXYZ').removeClass('fg-accent')
       $('.jogdistXYZ').addClass('fg-gray')
       $('#dist10label').removeClass('fg-gray')
-      $('#dist10label').addClass('fg-openbuilds')
+      $('#dist10label').addClass('fg-accent')
     }
   }
 
@@ -994,6 +987,40 @@ function home() {
   }
 }
 
+// Retracts Z a fixed 5mm above the current WORK Z-zero, then moves to work X0 Y0, then plunges to work Z0.
+// Deterministic regardless of homing state, so this is the safe fallback when we can't
+// confirm the machine has actually been homed this session.
+function gotoZeroWorkCoord() {
+  sendGcode('G21 G90');
+  sendGcode('G0 Z5');
+  sendGcode('G0 X0 Y0');
+  sendGcode('G0 Z0');
+}
+
+// Retracts Z using the MACHINE coordinate system (G53) before moving to work X0 Y0, then
+// plunging to work Z0. Only meaningful if the machine has actually been homed this
+// session - otherwise G53 Z0 is an arbitrary, unverified position.
+function gotoZeroMachineZRetract() {
+  if (grblParams['$22'] == 1) {
+    sendGcode('G53 G0 Z-' + grblParams["$27"]);
+  } else {
+    sendGcode('G53 G0 Z0');
+  }
+  sendGcode('G0 X0 Y0');
+  sendGcode('G0 Z0');
+}
+
+// Default action for the GOTOZERO button: uses the machine-coordinate retract only when
+// this session has actually run a homing cycle (not just when homing is enabled in
+// settings), otherwise falls back to the always-safe work-coordinate retract.
+function gotoZeroSmart() {
+  if (laststatus !== undefined && laststatus.machine.modals.homedRecently == true) {
+    gotoZeroMachineZRetract();
+  } else {
+    gotoZeroWorkCoord();
+  }
+}
+
 function toastJogWillHit(axis) {
   printLog("<span class='fg-red'>[ jog ] </span><span class='fg-red'>Unable to jog toward " + axis + ", will hit soft-limit</span>")
   var toast = Metro.toast.create;
@@ -1005,3 +1032,254 @@ function toastJogNotIdle(axis) {
   var toast = Metro.toast.create;
   toast("Please wait for machine to be Idle, before jogging. Try again once it is Idle", null, 1000, "bg-darkRed fg-white")
 }
+
+// ==========================================================================
+// XY radial jog pad: diagonals, dual-ring (inner=incremental/outer=continuous),
+// and the center distance-cycle button.
+//
+// These are additive and do not alter the existing #xP/#xM/#yP/#yM handlers
+// above (or their reliance on the Incremental/Continuous toggle), because
+// keyboard.js triggers those exact elements via .mousedown()/.mouseup() for
+// arrow-key jogging and expects that toggle-dependent behavior to keep working.
+// ==========================================================================
+
+function isMachineIdleForJog() {
+  return !waitingForStatus && (laststatus.comms.runStatus == "Idle" || laststatus.comms.runStatus == "Door:0");
+}
+
+function hasSoftLimitsEnabled() {
+  return Object.keys(grblParams).length > 0 && parseInt(grblParams.$20) == 1;
+}
+
+// Clamps a long continuous-jog run to just short of the soft limit on one axis.
+// Returns 1000 (the normal "run until canceled" distance) when soft limits are off.
+function getContinuousLinearDistance(limitParam, posKey, sign) {
+  if (!hasSoftLimitsEnabled()) {
+    return 1000;
+  }
+  var limit = parseInt(grblParams[limitParam]);
+  var pos = parseFloat(laststatus.machine.position.offset[posKey]) + parseFloat(laststatus.machine.position.work[posKey]);
+  var distance = sign < 0 ? (limit + pos) - 1 : (0 - pos) - 1;
+  return parseFloat(distance.toFixed(3));
+}
+
+function jogDiagonalIncremental(xSign, ySign) {
+  jogXY(xSign * jogdistXYZ, ySign * jogdistXYZ, Math.min(jogRateX, jogRateY));
+}
+
+// Outer ring jogs one step size above whatever the inner ring/center button is
+// currently set to (e.g. inner=1mm -> outer=10mm). When the inner ring is already
+// at its highest step, there is no "next step up" left, so the outer ring falls
+// back to its original continuous-jog behavior.
+var jogStepValuesMm = [0.1, 1, 10, 100];
+var jogStepValuesIn = [0.0254, 0.254, 2.54, 25.4];
+var jogStepLabelIds = ['#dist01label', '#dist1label', '#dist10label', '#dist100label'];
+
+function getOuterStepIndex() {
+  var steps = unit == "mm" ? jogStepValuesMm : jogStepValuesIn;
+  var idx = steps.indexOf(jogdistXYZ);
+  if (idx == -1 || idx == steps.length - 1) {
+    return -1;
+  }
+  return idx + 1;
+}
+
+function getOuterStepDistance() {
+  var idx = getOuterStepIndex();
+  if (idx == -1) {
+    return null;
+  }
+  var steps = unit == "mm" ? jogStepValuesMm : jogStepValuesIn;
+  return steps[idx];
+}
+
+// Keeps the outer ring's tooltips in sync with what pressing them will actually do.
+function syncOuterRingTitles() {
+  var idx = getOuterStepIndex();
+  var stepLabel = idx == -1 ? null : $(jogStepLabelIds[idx]).text();
+  function setTitle(sel, axisLabel) {
+    $(sel).attr('title', stepLabel == null ? 'Continuous jog ' + axisLabel : 'Jog ' + axisLabel + ' ' + stepLabel);
+  }
+  setTitle('#xP_out', 'X+');
+  setTitle('#xM_out', 'X-');
+  setTitle('#yP_out', 'Y+');
+  setTitle('#yM_out', 'Y-');
+  setTitle('#xyNE_out', 'X+ Y+');
+  setTitle('#xyNW_out', 'X- Y+');
+  setTitle('#xySE_out', 'X+ Y-');
+  setTitle('#xySW_out', 'X- Y-');
+}
+
+// Keeps the jog-pad's center distance-cycle button label (and the outer ring's
+// tooltips, which depend on the same jogdistXYZ) in sync. Called from the
+// dist01/dist1/dist10/dist100 click handlers below, from the center button's own
+// click handler, and from mmMode()/inMode() above.
+function syncDistCycleLabel() {
+  if (jogdistXYZ == 1 || jogdistXYZ == 0.254) {
+    $('#jogDistCycleLabel').text($('#dist1label').text());
+  } else if (jogdistXYZ == 10 || jogdistXYZ == 2.54) {
+    $('#jogDistCycleLabel').text($('#dist10label').text());
+  } else if (jogdistXYZ == 100 || jogdistXYZ == 25.4) {
+    $('#jogDistCycleLabel').text($('#dist100label').text());
+  } else {
+    $('#jogDistCycleLabel').text($('#dist01label').text());
+  }
+  syncOuterRingTitles();
+}
+
+function startContinuousLinear(gcodeAxisToken, limitParam, posKey, sign, jogRate, axisLabel) {
+  if (!isMachineIdleForJog()) {
+    toastJogNotIdle();
+    return;
+  }
+  var distance = getContinuousLinearDistance(limitParam, posKey, sign);
+  if (distance < 1) {
+    toastJogWillHit(axisLabel);
+    return;
+  }
+  socket.emit('runCommand', "$J=G91 G21 " + gcodeAxisToken + distance + " F" + jogRate + "\n");
+  continuousJogRunning = true;
+  waitingForStatus = true;
+}
+
+function startContinuousDiagonal(xSign, ySign, axisLabel) {
+  if (!isMachineIdleForJog()) {
+    toastJogNotIdle();
+    return;
+  }
+  var xDist = getContinuousLinearDistance('$130', 'x', xSign);
+  var yDist = getContinuousLinearDistance('$131', 'y', ySign);
+  var distance = Math.min(xDist, yDist);
+  if (distance < 1) {
+    toastJogWillHit(axisLabel);
+    return;
+  }
+  var feed = Math.min(jogRateX, jogRateY);
+  socket.emit('runCommand', "$J=G91 G21 X" + (xSign * distance) + " Y" + (ySign * distance) + " F" + feed + "\n");
+  continuousJogRunning = true;
+  waitingForStatus = true;
+}
+
+$(document).ready(function() {
+
+  // --- Inner ring diagonals (always incremental, regardless of the toggle) ---
+  $('#xyNE_in').on('click', function(ev) { ev.preventDefault(); jogDiagonalIncremental(1, 1); });
+  $('#xyNW_in').on('click', function(ev) { ev.preventDefault(); jogDiagonalIncremental(-1, 1); });
+  $('#xySE_in').on('click', function(ev) { ev.preventDefault(); jogDiagonalIncremental(1, -1); });
+  $('#xySW_in').on('click', function(ev) { ev.preventDefault(); jogDiagonalIncremental(-1, -1); });
+
+  // --- Outer ring: jogs one step above the inner ring's current step; falls back
+  // to continuous jog once the inner ring is already at its highest step ---
+  $('#xP_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jog('X', step, jogRateX);
+    } else {
+      startContinuousLinear('X', '$130', 'x', 1, jogRateX, 'X+');
+    }
+  });
+  $('#xM_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jog('X', -step, jogRateX);
+    } else {
+      startContinuousLinear('X-', '$130', 'x', -1, jogRateX, 'X-');
+    }
+  });
+  $('#yP_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jog('Y', step, jogRateY);
+    } else {
+      startContinuousLinear('Y', '$131', 'y', 1, jogRateY, 'Y+');
+    }
+  });
+  $('#yM_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jog('Y', -step, jogRateY);
+    } else {
+      startContinuousLinear('Y-', '$131', 'y', -1, jogRateY, 'Y-');
+    }
+  });
+  $('#xyNE_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jogXY(step, step, Math.min(jogRateX, jogRateY));
+    } else {
+      startContinuousDiagonal(1, 1, 'X+ Y+');
+    }
+  });
+  $('#xyNW_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jogXY(-step, step, Math.min(jogRateX, jogRateY));
+    } else {
+      startContinuousDiagonal(-1, 1, 'X- Y+');
+    }
+  });
+  $('#xySE_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jogXY(step, -step, Math.min(jogRateX, jogRateY));
+    } else {
+      startContinuousDiagonal(1, -1, 'X+ Y-');
+    }
+  });
+  $('#xySW_out').on('touchstart mousedown', function(ev) {
+    if (ev.which > 1) return;
+    ev.preventDefault();
+    var step = getOuterStepDistance();
+    if (step !== null) {
+      jogXY(-step, -step, Math.min(jogRateX, jogRateY));
+    } else {
+      startContinuousDiagonal(-1, -1, 'X- Y-');
+    }
+  });
+  $('.jog-cardinal-out, .jog-diag-out').on('touchend mouseup mouseleave', function(ev) {
+    ev.preventDefault();
+    if (continuousJogRunning) {
+      cancelJog();
+    }
+  });
+
+  // --- Center button: cycle jog distance 1 -> 10 -> 100 -> back to 1 ---
+  $('#dist01, #dist1, #dist10, #dist100').on('click', syncDistCycleLabel);
+  syncDistCycleLabel();
+
+  $('#jogDistCycle').on('click', function(ev) {
+    ev.preventDefault();
+    if (unit == "in") {
+      if (jogdistXYZ == 0.254) {
+        $('#dist10').click();
+      } else if (jogdistXYZ == 2.54) {
+        $('#dist100').click();
+      } else {
+        $('#dist1').click();
+      }
+    } else {
+      if (jogdistXYZ == 1) {
+        $('#dist10').click();
+      } else if (jogdistXYZ == 10) {
+        $('#dist100').click();
+      } else {
+        $('#dist1').click();
+      }
+    }
+  });
+
+});

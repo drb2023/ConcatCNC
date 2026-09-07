@@ -22,5 +22,6 @@ Original path -> reason moved:
 
 - `build/favicon.ico`, `build/32x32.png` -> found while mapping out where the new logo/icon should go (2026-08-29). Neither is referenced by the `build` config in `package.json` (which uses `build/icon.ico`, `build/icon.icns`, and the `build/icons/*.png` set) — leftovers from an earlier icon-file layout.
 - `app/img/OpenBuildsCONTROL.svg`, `app/img/openbuilds-logo.svg` -> the original OpenBuilds splash/titlebar logo and ribbon-button icon, superseded 2026-08-29 by `app/img/concatcnc-logo.svg` and `app/img/concatcnc-icon.svg` (generated from the new master art in `branding/`). Kept here for reference/credit rather than deleted.
+- `app/img/openbuilds.svg` -> the icon for the old "OpenBuilds CAM" launcher menu item; that menu item was itself removed in the 2026-08-30 dead-dropdown cleanup (see `todo.md`), so this icon has had zero references anywhere in `app/` since. Moved here 2026-09-06.
 
 See `todo.md` at the repo root for follow-up items these findings raised.

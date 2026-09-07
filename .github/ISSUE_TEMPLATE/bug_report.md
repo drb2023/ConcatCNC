@@ -15,7 +15,7 @@ assignees: ''
 ---
 
 ### Please Note:
-1. We don't provide support on GitHub. For assistance, please visit [OpenBuilds Forums](https://openbuilds.com/forums/).
+1. We don't provide support on GitHub. For assistance, please visit the [ConcatCNC Forum](https://forum.concatcnc.com/).
 2. This template is only for bug reports.
 
 ---
